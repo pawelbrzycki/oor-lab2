@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<body><center>
+<font size="6">Worker<br></font>
+<button onclick="startWorker()" class="button button1">Start <b>Worker</b></button> 
+<button onclick="stopWorker()" class="button button1">Stop <b>Worker</b></button>
+<a href="index.html" class="button button2">Reset</a>
+
+
+<p><output id="result">0</output></p>
+
+
+</center>
+
+<script>
+var w;
+
+function startWorker() {
+    if(typeof(Worker) !== "undefined") {
+        if(typeof(w) == "undefined") {
+            w = new Worker("workers.js");
+        }
+        w.onmessage = function(event) {
+            document.getElementById("result").innerHTML = event.data;
+        };
+    } else {
+        document.getElementById("result").innerHTML = "Sorry! No Web Worker support.";
+    }
+}
+
+function stopWorker() { 
+    w.terminate();
+    w = undefined;
+}
+</script>
+
+</body>
+</html>
